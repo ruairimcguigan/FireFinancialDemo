@@ -18,11 +18,42 @@ android {
     }
 }
 
+apply from: 'dependencies.gradle'
+
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation supportLibs
+    implementation networkLibs
+    implementation rxJavaLibs
+    implementation otherLibs
+
+    implementation 'com.android.support:support-v4:27.1.1'
+    implementation 'com.android.support:recyclerview-v7:27.1.1'
     implementation 'com.android.support.constraint:constraint-layout:1.1.0'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+    implementation 'com.android.support:multidex:1.0.3'
+
+    debugImplementation debugLibs
+    releaseImplementation releaseLibs
+
+    debugImplementation(sherlock) {
+        transitive = true
+    }
+
+    // APT dependencies
+    annotationProcessor annotationProcessorLibs
+    testAnnotationProcessor daggerCompiler
+    androidTestAnnotationProcessor daggerCompiler
+
+    testImplementation unitTestLibs
+    androidTestImplementation androidTestsLibs
+
+    compileOnly "com.google.auto.value:auto-value:$versions.autoValue"
+    annotationProcessor "com.google.auto.value:auto-value:$versions.autoValue"
+
+    annotationProcessor "com.ryanharter.auto.value:auto-value-gson:$versions.autoValue_gson"
+    implementation "com.ryanharter.auto.value:auto-value-gson-annotations:$versions.autoValue_gson"
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
+    implementation 'com.facebook.fresco:fresco:1.9.0'
+    implementation 'com.android.support:support-core-utils:27.1.1'
+    implementation 'com.github.aakira:expandable-layout:1.6.0@aar'
 }
