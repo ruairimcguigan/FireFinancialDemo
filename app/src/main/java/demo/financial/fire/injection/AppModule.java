@@ -5,9 +5,11 @@ import android.content.Context;
 
 import dagger.Module;
 import dagger.Provides;
+import demo.financial.fire.weather.WeatherActivity;
 
 @Module()
 public class AppModule {
+
     private final Application application;
 
     public AppModule(Application application) {
@@ -23,6 +25,11 @@ public class AppModule {
     @ApplicationContext
     Context provideContext() {
         return application;
+    }
+
+    @Provides
+    WeatherActivity provideWeatherActivity(){
+        return new WeatherActivity();
     }
 
 }

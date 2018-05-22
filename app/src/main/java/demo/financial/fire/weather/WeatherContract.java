@@ -1,7 +1,5 @@
 package demo.financial.fire.weather;
 
-import java.util.List;
-
 public interface WeatherContract {
 
     interface View {
@@ -20,6 +18,11 @@ public interface WeatherContract {
 
         void onWeatherDataLoaded();
 
+        void detach();
+
+        void onSuccess();
+
+        void onError();
     }
 
     interface Model {
