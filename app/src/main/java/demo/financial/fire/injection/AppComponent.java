@@ -3,7 +3,7 @@ package demo.financial.fire.injection;
 import javax.inject.Singleton;
 
 import dagger.Component;
-import demo.financial.fire.MainActivity;
+import demo.financial.fire.weather.WeatherActivity;
 
 @Singleton
 @Component(modules = {
@@ -11,6 +11,6 @@ import demo.financial.fire.MainActivity;
 })
 public interface AppComponent {
 
-    void inject(MainActivity activity);
+    void inject(WeatherActivity activity);
 
 }
