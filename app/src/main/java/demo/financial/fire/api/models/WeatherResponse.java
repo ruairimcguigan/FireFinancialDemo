@@ -1,4 +1,4 @@
-package demo.financial.fire.weather.api.models;
+package demo.financial.fire.api.models;
 
 import java.util.List;
 import com.google.gson.annotations.SerializedName;

@@ -1,4 +1,10 @@
-package demo.financial.fire.weather.api.models;
+package demo.financial.fire.api;
+
+import demo.financial.fire.api.models.Sys;
+import demo.financial.fire.api.models.WeatherResponse;
+import demo.financial.fire.api.models.Wind;
+
+import static java.lang.String.valueOf;
 
 public class WeatherWrapper {
 
@@ -9,23 +15,23 @@ public class WeatherWrapper {
     }
 
     public String getCurrentTemp(){
-        return String.valueOf(weatherResponse.getMain().getTemp());
+        return valueOf(weatherResponse.getMain().getTemp());
     }
 
     public String getMaxTemp(){
-        return String.valueOf(weatherResponse.getMain().getTempMax());
+        return valueOf(weatherResponse.getMain().getTempMax());
     }
 
     public String getMinTemp(){
-        return String.valueOf(weatherResponse.getMain().getTempMin());
+        return valueOf(weatherResponse.getMain().getTempMin());
     }
 
     public String getHumidity(){
-        return String.valueOf(weatherResponse.getMain().getHumidity());
+        return valueOf(weatherResponse.getMain().getHumidity());
     }
 
     public String getIconCode(){
-        return String.valueOf(weatherResponse.getWeather().get(0).getIcon());
+        return valueOf(weatherResponse.getWeather().get(0).getIcon());
     }
 
     public String getConditionTitle(){
@@ -37,15 +43,15 @@ public class WeatherWrapper {
     }
 
     public String getSunrise(){
-        return String.valueOf(weatherResponse.getSys().getSunrise());
+        return valueOf(weatherResponse.getSys().getSunrise());
     }
 
     public String getSunset(){
-        return String.valueOf(weatherResponse.getSys().getSunset());
+        return valueOf(weatherResponse.getSys().getSunset());
     }
 
     public String getCountry(){
-        return String.valueOf(weatherResponse.getSys().getCountry());
+        return valueOf(weatherResponse.getSys().getCountry());
     }
 
     public Sys getSys(){

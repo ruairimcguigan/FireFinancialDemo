@@ -1,25 +1,26 @@
 package demo.financial.fire.weather;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import demo.financial.fire.R;
 import demo.financial.fire.WeatherApplication;
-import demo.financial.fire.weather.api.models.WeatherWrapper;
+import demo.financial.fire.api.WeatherWrapper;
+import timber.log.Timber;
 
 import static android.support.design.widget.Snackbar.LENGTH_INDEFINITE;
 import static android.support.design.widget.Snackbar.make;
 import static android.view.View.VISIBLE;
+import static butterknife.ButterKnife.bind;
 
 public class WeatherActivity extends AppCompatActivity implements WeatherContract.View {
 
@@ -37,6 +38,9 @@ public class WeatherActivity extends AppCompatActivity implements WeatherContrac
 
     @BindView(R.id.activity_weather_city_name)
     TextView cityName;
+
+    @BindView(R.id.activity_weather_description)
+    TextView description;
 
     @BindView(R.id.activity_weather_current_temp)
     TextView currentTemp;
@@ -57,8 +61,7 @@ public class WeatherActivity extends AppCompatActivity implements WeatherContrac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weather);
-
-        ButterKnife.bind(this);
+        bind(this);
 
         ((WeatherApplication) getApplication()).getAppComponent().inject(this);
     }
@@ -100,7 +103,10 @@ public class WeatherActivity extends AppCompatActivity implements WeatherContrac
 
     @Override
     public void showWeather(WeatherWrapper weather) {
+        weatherImage.setImageURI(Uri.parse(presenter.iconUrlBuilder(weather.getIconCode())));
+        Timber.i("IMAGE: ", presenter.iconUrlBuilder(weather.getIconCode()));
         cityName.setText(weather.getPlace());
+        description.setText(weather.getConditionDescription());
         currentTemp.setText(weather.getCurrentTemp());
         minTemp.setText(weather.getMinTemp());
         maxtemp.setText(weather.getMaxTemp());

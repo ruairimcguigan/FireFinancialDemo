@@ -1,6 +1,6 @@
-package demo.financial.fire.weather.api;
+package demo.financial.fire.api;
 
-import demo.financial.fire.weather.api.models.WeatherResponse;
+import demo.financial.fire.api.models.WeatherResponse;
 import io.reactivex.Observable;
 import retrofit2.http.GET;
 import retrofit2.http.Query;

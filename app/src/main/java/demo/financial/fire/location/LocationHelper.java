@@ -11,7 +11,7 @@ import java.util.function.Consumer;
 
 import javax.inject.Inject;
 
-import demo.financial.fire.weather.api.models.Coord;
+import demo.financial.fire.api.models.Coord;
 import timber.log.Timber;
 
 import static android.support.constraint.Constraints.TAG;
@@ -50,6 +50,5 @@ public class LocationHelper {
                     }
                 });
     }
-
 
 }

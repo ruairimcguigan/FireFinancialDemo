@@ -15,7 +15,7 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import demo.financial.fire.WeatherApplication;
-import demo.financial.fire.weather.api.WeatherAPI;
+import demo.financial.fire.api.WeatherAPI;
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;

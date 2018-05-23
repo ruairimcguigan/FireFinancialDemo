@@ -2,10 +2,9 @@ package demo.financial.fire.weather;
 
 import android.app.Activity;
 import android.support.annotation.NonNull;
-import android.view.View;
 
-import demo.financial.fire.weather.api.models.WeatherResponse;
-import demo.financial.fire.weather.api.models.WeatherWrapper;
+import demo.financial.fire.api.models.WeatherResponse;
+import demo.financial.fire.api.WeatherWrapper;
 
 public interface WeatherContract {
 
@@ -19,7 +18,8 @@ public interface WeatherContract {
 
         void showPermissionRequestRationale();
 
-        void showPermissionsSnackbar(final int message, final int requestId,
+        void showPermissionsSnackbar(final int message,
+                                     final int requestId,
                                      android.view.View.OnClickListener listener);
     }
 
@@ -43,9 +43,14 @@ public interface WeatherContract {
 
         void onPermissionDenied(Activity activity);
 
-        void onRequestPermissionResult(Activity activity, int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults);
+        void onRequestPermissionResult(Activity activity,
+                                       int requestCode,
+                                       @NonNull String[] permissions,
+                                       @NonNull int[] grantResults);
 
         void getLastLocation();
+
+        String iconUrlBuilder(String iconCode);
     }
 
     interface Model {

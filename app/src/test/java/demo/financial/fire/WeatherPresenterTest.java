@@ -7,7 +7,7 @@ import org.mockito.Mock;
 import demo.financial.fire.weather.WeatherContract.Model;
 import demo.financial.fire.weather.WeatherContract.View;
 import demo.financial.fire.weather.WeatherPresenter;
-import demo.financial.fire.weather.api.models.WeatherResponse;
+import demo.financial.fire.api.models.WeatherResponse;
 
 import static org.junit.Assert.assertEquals;
 

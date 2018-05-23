@@ -6,22 +6,20 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import java.util.Arrays;
+import java.net.URLConnection;
 
 import javax.inject.Inject;
 
 import demo.financial.fire.BuildConfig;
 import demo.financial.fire.R;
-import demo.financial.fire.location.Locale;
+import demo.financial.fire.api.WeatherAPI;
 import demo.financial.fire.location.LocationHelper;
 import demo.financial.fire.util.PermissionsChecker;
 import demo.financial.fire.weather.WeatherContract.Model;
 import demo.financial.fire.weather.WeatherContract.Presenter;
 import demo.financial.fire.weather.WeatherContract.View;
-import demo.financial.fire.weather.api.WeatherAPI;
-import demo.financial.fire.weather.api.models.Main;
-import demo.financial.fire.weather.api.models.WeatherResponse;
-import demo.financial.fire.weather.api.models.WeatherWrapper;
+import demo.financial.fire.api.models.WeatherResponse;
+import demo.financial.fire.api.WeatherWrapper;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import timber.log.Timber;
@@ -32,6 +30,7 @@ import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 import static android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS;
 import static android.support.constraint.Constraints.TAG;
 import static demo.financial.fire.BuildConfig.APPLICATION_ID;
+import static demo.financial.fire.BuildConfig.BASE_ICON_URL;
 import static io.reactivex.android.schedulers.AndroidSchedulers.mainThread;
 import static java.lang.String.valueOf;
 
@@ -90,14 +89,12 @@ public class WeatherPresenter implements Presenter {
 
     @Override
     public void onSuccess(WeatherResponse weather) {
-        Timber.d("Received weather successfully: ", weather.toString());
         view.hideProgress();
         view.showWeather(wrapWeather(weather));
     }
 
     @Override
     public void onError(Throwable throwable) {
-        Timber.d("Error retrieving weather", Arrays.toString(throwable.getStackTrace()));
         view.showPermissionsSnackbar(R.string.fetch_error, 0, null);
     }
 
@@ -109,9 +106,8 @@ public class WeatherPresenter implements Presenter {
 
     @Override
     public void onPermissionDenied(Activity activity) {
-        view.showPermissionsSnackbar(R.string.permission_denied, R.string.settings, v -> {
-            allowSettingsAdjustment(activity);
-        });
+        view.showPermissionsSnackbar(R.string.permission_denied,
+                R.string.settings, v -> allowSettingsAdjustment(activity));
     }
 
     private void allowSettingsAdjustment(Activity activity) {
@@ -142,6 +138,18 @@ public class WeatherPresenter implements Presenter {
         locationHelper.getLastLocation(locationCoords ->
                 loadWeatherData(valueOf(locationCoords.getLat()), valueOf(locationCoords.getLon())));
     }
+
+    @Override
+    public String iconUrlBuilder(String iconCode) {
+        Uri.Builder builder = new Uri.Builder();
+        builder.scheme("https")
+                .authority(BASE_ICON_URL)
+                .appendPath("img")
+                .appendPath("w")
+                .appendPath(iconCode);
+        return builder.build().toString().concat(".png");
+    }
+
 
     private WeatherWrapper wrapWeather(WeatherResponse response){
         return new WeatherWrapper(response);

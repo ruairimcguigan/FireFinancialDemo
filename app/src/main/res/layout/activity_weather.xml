@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root_view"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/grey_light">
+    android:layout_height="match_parent">
 
         <LinearLayout
             android:id="@+id/linearLayout"
@@ -33,20 +32,32 @@
                 android:textStyle="bold"
                 tools:text="Glasgow City" />
 
+            <TextView
+                android:id="@+id/activity_weather_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/margin_small"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/city_name_text_size"
+                android:textStyle="bold"
+                tools:text="Cloudy" />
+
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginEnd="@dimen/margin_small"
                 android:layout_marginStart="@dimen/margin_small"
-                android:layout_marginTop="@dimen/margin_small"
+                android:layout_marginTop="@dimen/margin_normal"
                 android:elevation="@dimen/image_elevation">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@android:color/white"
-                    android:weightSum="3">
+                    android:weightSum="3"
+                    android:baselineAligned="false">
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -61,14 +72,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:text="Current temp"
+                            android:text="@string/current_temp"
                             android:textSize="@dimen/label_text_size" />
 
                         <TextView
                             android:id="@+id/activity_weather_current_temp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:paddingTop="@dimen/margin_medium"
+                            android:paddingTop="@dimen/margin_small"
                             android:textColor="@color/profile_start_blue"
                             android:textSize="@dimen/temp_value_size"
                             android:textStyle="bold"
@@ -95,7 +106,7 @@
                             android:id="@+id/activity_weather_min_temp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:paddingTop="@dimen/margin_medium"
+                            android:paddingTop="@dimen/margin_small"
                             android:textColor="@color/profile_start_blue"
                             android:textSize="@dimen/temp_value_size"
                             android:textStyle="bold"
@@ -123,7 +134,7 @@
                             android:id="@+id/activity_weather_max_temp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:paddingTop="@dimen/margin_medium"
+                            android:paddingTop="@dimen/margin_small"
                             android:textColor="@color/profile_start_blue"
                             android:textSize="@dimen/temp_value_size"
                             android:textStyle="bold"
@@ -136,71 +147,72 @@
             </android.support.v7.widget.CardView>
         </LinearLayout>
 
-        <TableRow
-            android:layout_width="fill_parent"
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/position_margin"
+        android:background="@color/grey_light"
+        android:gravity="center_horizontal"
+        android:padding="@dimen/margin_small"
+        fresco:layout_constraintBottom_toBottomOf="parent"
+        fresco:layout_constraintEnd_toEndOf="@+id/linearLayout"
+        fresco:layout_constraintStart_toStartOf="@+id/linearLayout"
+        fresco:layout_constraintTop_toTopOf="@+id/linearLayout"
+        fresco:layout_constraintVertical_bias="0.807">
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="50dp"
-            android:background="@color/grey_light"
-            android:gravity="center_horizontal"
-            fresco:layout_constraintBottom_toBottomOf="parent"
-            fresco:layout_constraintEnd_toEndOf="@+id/linearLayout"
-            fresco:layout_constraintStart_toStartOf="@+id/linearLayout"
-            fresco:layout_constraintTop_toTopOf="@+id/linearLayout"
-            fresco:layout_constraintVertical_bias="0.897">
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-            <LinearLayout
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:orientation="vertical">
+                android:gravity="center"
+                android:padding="@dimen/margin_xsmall"
+                android:text="@string/sunrise"
+                android:textColor="@android:color/black" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:padding="@dimen/margin_xsmall"
-                    android:text="Sunrise"
-                    android:textColor="@android:color/black" />
-
-                <TextView
-                    android:id="@+id/activity_weather_sunset"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:padding="@dimen/margin_xsmall"
-                    tools:text="8am" />
-
-            </LinearLayout>
-
-            <LinearLayout
+            <TextView
+                android:id="@+id/activity_weather_sunset"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:orientation="vertical">
+                android:gravity="center"
+                android:padding="@dimen/margin_xsmall"
+                tools:text="8am" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:padding="@dimen/margin_xsmall"
-                    android:text="Sunset"
-                    android:textColor="@android:color/black" />
+        </LinearLayout>
 
-                <TextView
-                    android:id="@+id/activity_weather_sunrise"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:padding="@dimen/margin_xsmall"
-                    tools:text="10pm" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-            </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="@dimen/margin_xsmall"
+                android:text="@string/sunset"
+                android:textColor="@android:color/black" />
 
-        </TableRow>
+            <TextView
+                android:id="@+id/activity_weather_sunrise"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="@dimen/margin_xsmall"
+                tools:text="10pm" />
+
+        </LinearLayout>
+
+    </TableRow>
 
     <include
         android:id="@+id/progress"

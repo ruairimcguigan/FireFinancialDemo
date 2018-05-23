@@ -6,4 +6,7 @@
     <string name="fetch_error">Error fetching weather</string>
     <string name="max_temp">Max temp</string>
     <string name="min_temp">Min temp</string>
+    <string name="current_temp">Current temp</string>
+    <string name="sunrise">Sunrise</string>
+    <string name="sunset">Sunset</string>
 </resources>
