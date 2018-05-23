@@ -1,10 +1,12 @@
 package demo.financial.fire.weather;
 
+import demo.financial.fire.weather.api.models.WeatherResponse;
+
 public interface WeatherContract {
 
     interface View {
 
-        void showWeather();
+        void showWeather(WeatherResponse weather);
 
         void showProgress();
 
@@ -16,13 +18,13 @@ public interface WeatherContract {
 
         void attachView(View view);
 
-        void onWeatherDataLoaded();
+        void loadWeatherData();
 
         void detach();
 
-        void onSuccess();
+        void onSuccess(WeatherResponse weather);
 
-        void onError();
+        void onError(Throwable throwable);
     }
 
     interface Model {

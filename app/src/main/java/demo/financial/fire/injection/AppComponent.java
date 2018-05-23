@@ -3,6 +3,7 @@ package demo.financial.fire.injection;
 import javax.inject.Singleton;
 
 import dagger.Component;
+import demo.financial.fire.repository.ApiModule;
 import demo.financial.fire.weather.WeatherActivity;
 import demo.financial.fire.weather.WeatherModule;
 
@@ -10,6 +11,7 @@ import demo.financial.fire.weather.WeatherModule;
 @Component(modules = {
         AppModule.class,
         WeatherModule.class,
+        ApiModule.class
 })
 public interface AppComponent {
 

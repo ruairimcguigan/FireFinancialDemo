@@ -1,19 +1,19 @@
 package demo.financial.fire.weather;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
 import javax.inject.Inject;
 
 import demo.financial.fire.R;
 import demo.financial.fire.WeatherApplication;
-import demo.financial.fire.weather.WeatherContract.Presenter;
 import demo.financial.fire.weather.WeatherContract.View;
+import demo.financial.fire.weather.api.models.WeatherResponse;
 
 public class WeatherActivity extends AppCompatActivity implements View{
 
     @Inject
-    Presenter presenter;
+    WeatherPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,11 +27,12 @@ public class WeatherActivity extends AppCompatActivity implements View{
     protected void onStart() {
         super.onStart();
         presenter.attachView(this);
+        presenter.loadWeatherData();
     }
 
     @Override
-    public void showWeather() {
-
+    public void showWeather(WeatherResponse weather) {
+        // TODO: 23/05/2018  
     }
 
     @Override
