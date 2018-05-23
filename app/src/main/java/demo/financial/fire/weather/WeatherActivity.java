@@ -1,24 +1,18 @@
 package demo.financial.fire.weather;
 
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
-import demo.financial.fire.BuildConfig;
 import demo.financial.fire.R;
 import demo.financial.fire.WeatherApplication;
 import demo.financial.fire.weather.api.models.WeatherResponse;
-import timber.log.Timber;
 
 import static android.support.design.widget.Snackbar.LENGTH_INDEFINITE;
 import static android.support.design.widget.Snackbar.make;
@@ -49,11 +43,11 @@ public class WeatherActivity extends AppCompatActivity implements WeatherContrac
         if (!presenter.hasLocationPermissions()) {
             requestPermissionsRequestRationale();
         } else {
-            getLastLocation();
+            presenter.getLastLocation();
         }
 
 
-        presenter.loadWeatherData();
+//        presenter.loadWeatherData();
     }
 
     private void requestPermissionsRequestRationale() {
@@ -79,13 +73,9 @@ public class WeatherActivity extends AppCompatActivity implements WeatherContrac
         presenter.onRequestPermissionResult(this, requestCode, permissions, grantResults);
     }
 
-    private void getLastLocation() {
-
-    }
-
     @Override
     public void showWeather(WeatherResponse weather) {
-        // TODO: 23/05/2018
+        Toast.makeText(this, weather.toString(), Toast.LENGTH_LONG).show();
     }
 
     @Override

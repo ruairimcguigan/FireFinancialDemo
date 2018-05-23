@@ -2,12 +2,10 @@ package demo.financial.fire.util;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.v4.app.ActivityCompat;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 import static android.support.v4.app.ActivityCompat.requestPermissions;
-import static android.support.v4.app.ActivityCompat.shouldShowRequestPermissionRationale;
 import static android.support.v4.content.ContextCompat.checkSelfPermission;
 
 public class PermissionsChecker {
@@ -29,10 +27,6 @@ public class PermissionsChecker {
             }
         }
         return true;
-    }
-
-    public boolean shouldShowRequestRationale(Activity activity){
-        return shouldShowRequestPermissionRationale(activity, ACCESS_FINE_LOCATION);
     }
 
     public void startLocationPermissionRequest(Activity activity) {

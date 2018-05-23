@@ -7,6 +7,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import demo.financial.fire.location.LocationHelper;
 import demo.financial.fire.util.PermissionsChecker;
 import demo.financial.fire.weather.WeatherActivity;
 
@@ -39,5 +40,11 @@ public class AppModule {
     @Singleton
     PermissionsChecker providePermissionsCheck(Application context){
         return new PermissionsChecker(context);
+    }
+
+    @Provides
+    @Singleton
+    LocationHelper provideLocationHelper(Application context){
+        return new LocationHelper(context);
     }
 }

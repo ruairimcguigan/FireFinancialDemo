@@ -7,11 +7,14 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import java.util.Arrays;
+import java.util.function.Consumer;
 
 import javax.inject.Inject;
 
 import demo.financial.fire.BuildConfig;
 import demo.financial.fire.R;
+import demo.financial.fire.location.LocationCoords;
+import demo.financial.fire.location.LocationHelper;
 import demo.financial.fire.util.PermissionsChecker;
 import demo.financial.fire.weather.WeatherContract.Model;
 import demo.financial.fire.weather.WeatherContract.Presenter;
@@ -22,17 +25,22 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import timber.log.Timber;
 
+import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 import static android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS;
 import static android.support.constraint.Constraints.TAG;
 import static demo.financial.fire.BuildConfig.APPLICATION_ID;
 import static io.reactivex.android.schedulers.AndroidSchedulers.mainThread;
+import static java.lang.String.valueOf;
 
 public class WeatherPresenter implements Presenter {
 
     @Inject
     PermissionsChecker permissionsChecker;
+
+    @Inject
+    LocationHelper locationHelper;
 
     private final CompositeDisposable disposable = new CompositeDisposable();
 
@@ -69,9 +77,9 @@ public class WeatherPresenter implements Presenter {
     }
 
     @Override
-    public void loadWeatherData() {
+    public void loadWeatherData(String lat, String lon) {
         addDisposable(weatherService
-                .getCurrentWeatherForLocation("35", "139", BuildConfig.API_KEY, "metric")
+                .getCurrentWeatherForLocation(lat, lon, BuildConfig.API_KEY, "metric")
                 .observeOn(mainThread())
                 .doOnSubscribe(__ -> view.showProgress())
                 .doOnError(this::onError)
@@ -93,24 +101,24 @@ public class WeatherPresenter implements Presenter {
 
     @Override
     public boolean hasLocationPermissions() {
-        return permissionsChecker.hasPermissions(ACCESS_FINE_LOCATION);
+        return permissionsChecker.hasPermissions(ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION);
     }
 
     @Override
     public void onPermissionDenied(Activity activity) {
 
-        view.showSnackbar(R.string.permission_denied, R.string.settings, new android.view.View.OnClickListener() {
-
-            @Override
-            public void onClick(android.view.View v) {
-                Intent intent = new Intent();
-                intent.setAction(ACTION_APPLICATION_DETAILS_SETTINGS);
-                Uri uri = Uri.fromParts("package", APPLICATION_ID, null);
-                intent.setData(uri);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                activity.startActivity(intent);
-            }
+        view.showSnackbar(R.string.permission_denied, R.string.settings, v -> {
+            allowSettingsAdjustment(activity);
         });
+    }
+
+    private void allowSettingsAdjustment(Activity activity) {
+        Intent intent = new Intent();
+        intent.setAction(ACTION_APPLICATION_DETAILS_SETTINGS);
+        Uri uri = Uri.fromParts("package", APPLICATION_ID, null);
+        intent.setData(uri);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        activity.startActivity(intent);
     }
 
     @Override
@@ -118,7 +126,7 @@ public class WeatherPresenter implements Presenter {
         Timber.i(TAG, "onRequestPermissionResult");
         if (requestCode == permissionsChecker.getPermissionsRequestCode()) {
             if (grantResults.length <= 0) {
-                Log.i(TAG, "User interaction was cancelled.");
+                Timber.i(TAG, "User interaction was cancelled.");
             } else if (grantResults[0] == PERMISSION_GRANTED) {
                 getLastLocation();
             } else {
@@ -127,8 +135,14 @@ public class WeatherPresenter implements Presenter {
         }
     }
 
-    private void getLastLocation() {
-
+    @Override
+    public void getLastLocation() {
+        locationHelper.getLastLocation(new Consumer<LocationCoords>() {
+            @Override
+            public void accept(LocationCoords locationCoords) {
+                loadWeatherData(valueOf(locationCoords.getLat()), valueOf(locationCoords.getLon()));
+            }
+        });
     }
 
     @Override

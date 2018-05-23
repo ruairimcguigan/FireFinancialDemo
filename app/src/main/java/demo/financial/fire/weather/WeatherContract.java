@@ -26,7 +26,7 @@ public interface WeatherContract {
 
         void attachView(View view);
 
-        void loadWeatherData();
+        void loadWeatherData(String lat, String lon);
 
         void detach();
 
@@ -43,6 +43,8 @@ public interface WeatherContract {
         void onPermissionDenied(Activity activity);
 
         void onRequestPermissionResult(Activity activity, int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults);
+
+        void getLastLocation();
     }
 
     interface Model {
