@@ -4,4 +4,6 @@
     <string name="permission_denied">Cannot proceed without location</string>
     <string name="settings">settings</string>
     <string name="fetch_error">Error fetching weather</string>
+    <string name="max_temp">Max temp</string>
+    <string name="min_temp">Min temp</string>
 </resources>

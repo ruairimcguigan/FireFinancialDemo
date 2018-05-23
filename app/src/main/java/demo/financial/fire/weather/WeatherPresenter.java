@@ -12,13 +12,16 @@ import javax.inject.Inject;
 
 import demo.financial.fire.BuildConfig;
 import demo.financial.fire.R;
+import demo.financial.fire.location.Locale;
 import demo.financial.fire.location.LocationHelper;
 import demo.financial.fire.util.PermissionsChecker;
 import demo.financial.fire.weather.WeatherContract.Model;
 import demo.financial.fire.weather.WeatherContract.Presenter;
 import demo.financial.fire.weather.WeatherContract.View;
 import demo.financial.fire.weather.api.WeatherAPI;
+import demo.financial.fire.weather.api.models.Main;
 import demo.financial.fire.weather.api.models.WeatherResponse;
+import demo.financial.fire.weather.api.models.WeatherWrapper;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import timber.log.Timber;
@@ -88,23 +91,24 @@ public class WeatherPresenter implements Presenter {
     @Override
     public void onSuccess(WeatherResponse weather) {
         Timber.d("Received weather successfully: ", weather.toString());
-        view.showWeather(weather);
+        view.hideProgress();
+        view.showWeather(wrapWeather(weather));
     }
 
     @Override
     public void onError(Throwable throwable) {
         Timber.d("Error retrieving weather", Arrays.toString(throwable.getStackTrace()));
-        view.showPermissionsSnackbar(R.string.fetch_error, 0, null );
+        view.showPermissionsSnackbar(R.string.fetch_error, 0, null);
     }
 
     @Override
     public boolean hasLocationPermissions() {
+        view.showProgress();
         return permissionsChecker.hasPermissions(ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION);
     }
 
     @Override
     public void onPermissionDenied(Activity activity) {
-
         view.showPermissionsSnackbar(R.string.permission_denied, R.string.settings, v -> {
             allowSettingsAdjustment(activity);
         });
@@ -137,6 +141,10 @@ public class WeatherPresenter implements Presenter {
     public void getLastLocation() {
         locationHelper.getLastLocation(locationCoords ->
                 loadWeatherData(valueOf(locationCoords.getLat()), valueOf(locationCoords.getLon())));
+    }
+
+    private WeatherWrapper wrapWeather(WeatherResponse response){
+        return new WeatherWrapper(response);
     }
 
     @Override

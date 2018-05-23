@@ -28,8 +28,8 @@ public class WeatherApplication extends Application {
             Timber.plant(new Timber.DebugTree());
             Stetho.initializeWithDefaults(this);
             LeakCanary.install(this);
-            Sherlock.init(this);
-            Traceur.enableLogging();
+//            Sherlock.init(this);
+//            Traceur.enableLogging();
             initDagger();
         }
     }

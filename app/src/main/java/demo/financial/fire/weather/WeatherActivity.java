@@ -5,17 +5,21 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import demo.financial.fire.R;
 import demo.financial.fire.WeatherApplication;
-import demo.financial.fire.weather.api.models.WeatherResponse;
+import demo.financial.fire.weather.api.models.WeatherWrapper;
 
 import static android.support.design.widget.Snackbar.LENGTH_INDEFINITE;
 import static android.support.design.widget.Snackbar.make;
+import static android.view.View.VISIBLE;
 
 public class WeatherActivity extends AppCompatActivity implements WeatherContract.View {
 
@@ -23,12 +27,38 @@ public class WeatherActivity extends AppCompatActivity implements WeatherContrac
     WeatherPresenter presenter;
 
     @BindView(R.id.root_view)
-    ViewGroup rootView;
+    ViewGroup container;
+
+    @BindView(R.id.progress)
+    ViewGroup progressBar;
+
+    @BindView(R.id.activity_weather_current_weather_image)
+    ImageView weatherImage;
+
+    @BindView(R.id.activity_weather_city_name)
+    TextView cityName;
+
+    @BindView(R.id.activity_weather_current_temp)
+    TextView currentTemp;
+
+    @BindView(R.id.activity_weather_min_temp)
+    TextView minTemp;
+
+    @BindView(R.id.activity_weather_max_temp)
+    TextView maxtemp;
+
+    @BindView(R.id.activity_weather_sunrise)
+    TextView sunrise;
+
+    @BindView(R.id.activity_weather_sunset)
+    TextView sunset;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_weather);
+
+        ButterKnife.bind(this);
 
         ((WeatherApplication) getApplication()).getAppComponent().inject(this);
     }
@@ -69,18 +99,23 @@ public class WeatherActivity extends AppCompatActivity implements WeatherContrac
     }
 
     @Override
-    public void showWeather(WeatherResponse weather) {
-        Toast.makeText(this, weather.toString(), Toast.LENGTH_LONG).show();
+    public void showWeather(WeatherWrapper weather) {
+        cityName.setText(weather.getPlace());
+        currentTemp.setText(weather.getCurrentTemp());
+        minTemp.setText(weather.getMinTemp());
+        maxtemp.setText(weather.getMaxTemp());
+        sunrise.setText(weather.getSunrise());
+        sunset.setText(weather.getSunset());
     }
 
     @Override
     public void showProgress() {
-
+        progressBar.setVisibility(VISIBLE);
     }
 
     @Override
     public void hideProgress() {
-
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override

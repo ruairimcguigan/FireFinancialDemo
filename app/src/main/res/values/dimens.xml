@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="margin_xsmall">4dp</dimen>
+    <dimen name="margin_small">8dp</dimen>
+    <dimen name="margin_medium">12dp</dimen>
+    <dimen name="margin_normal">16dp</dimen>
+    <dimen name="margin_large">20dp</dimen>
+    <dimen name="weather_image_size">150dp</dimen>
+    <dimen name="position_margin">60dp</dimen>
+    <dimen name="city_name_text_size">18sp</dimen>
+    <dimen name="image_elevation">5dp</dimen>
+    <dimen name="label_text_size">14sp</dimen>
+    <dimen name="temp_value_size">16sp</dimen>
+
+    <dimen name="progress_bar">50dp</dimen>
+    <dimen name="progress_bar_stroke">4dp</dimen>
+    <dimen name="progress_bar_small">36dp</dimen>
+
+</resources>

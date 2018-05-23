@@ -5,12 +5,13 @@ import android.support.annotation.NonNull;
 import android.view.View;
 
 import demo.financial.fire.weather.api.models.WeatherResponse;
+import demo.financial.fire.weather.api.models.WeatherWrapper;
 
 public interface WeatherContract {
 
     interface View {
 
-        void showWeather(WeatherResponse weather);
+        void showWeather(WeatherWrapper weather);
 
         void showProgress();
 
