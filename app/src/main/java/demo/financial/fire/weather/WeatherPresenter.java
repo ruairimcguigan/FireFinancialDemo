@@ -7,13 +7,11 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import java.util.Arrays;
-import java.util.function.Consumer;
 
 import javax.inject.Inject;
 
 import demo.financial.fire.BuildConfig;
 import demo.financial.fire.R;
-import demo.financial.fire.location.LocationCoords;
 import demo.financial.fire.location.LocationHelper;
 import demo.financial.fire.util.PermissionsChecker;
 import demo.financial.fire.weather.WeatherContract.Model;
@@ -95,8 +93,8 @@ public class WeatherPresenter implements Presenter {
 
     @Override
     public void onError(Throwable throwable) {
-        // TODO: 22/05/2018 to be implemented
         Timber.d("Error retrieving weather", Arrays.toString(throwable.getStackTrace()));
+        view.showPermissionsSnackbar(R.string.fetch_error, 0, null );
     }
 
     @Override
@@ -107,7 +105,7 @@ public class WeatherPresenter implements Presenter {
     @Override
     public void onPermissionDenied(Activity activity) {
 
-        view.showSnackbar(R.string.permission_denied, R.string.settings, v -> {
+        view.showPermissionsSnackbar(R.string.permission_denied, R.string.settings, v -> {
             allowSettingsAdjustment(activity);
         });
     }
@@ -137,17 +135,14 @@ public class WeatherPresenter implements Presenter {
 
     @Override
     public void getLastLocation() {
-        locationHelper.getLastLocation(new Consumer<LocationCoords>() {
-            @Override
-            public void accept(LocationCoords locationCoords) {
-                loadWeatherData(valueOf(locationCoords.getLat()), valueOf(locationCoords.getLon()));
-            }
-        });
+        locationHelper.getLastLocation(locationCoords ->
+                loadWeatherData(valueOf(locationCoords.getLat()), valueOf(locationCoords.getLon())));
     }
 
     @Override
     public void detach() {
-
+        if (!disposable.isDisposed()) {
+            disposable.clear();
+        }
     }
-
 }

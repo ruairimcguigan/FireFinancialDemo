@@ -3,4 +3,5 @@
     <string name="permission_request_rationale">Location needed to provide weather data</string>
     <string name="permission_denied">Cannot proceed without location</string>
     <string name="settings">settings</string>
+    <string name="fetch_error">Error fetching weather</string>
 </resources>

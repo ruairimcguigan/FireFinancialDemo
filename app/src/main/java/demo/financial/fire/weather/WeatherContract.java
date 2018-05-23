@@ -18,8 +18,8 @@ public interface WeatherContract {
 
         void showPermissionRequestRationale();
 
-        void showSnackbar(final int message, final int requestId,
-                          android.view.View.OnClickListener listener);
+        void showPermissionsSnackbar(final int message, final int requestId,
+                                     android.view.View.OnClickListener listener);
     }
 
     interface Presenter {

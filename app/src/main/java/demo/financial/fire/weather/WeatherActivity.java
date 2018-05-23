@@ -19,8 +19,6 @@ import static android.support.design.widget.Snackbar.make;
 
 public class WeatherActivity extends AppCompatActivity implements WeatherContract.View {
 
-    private static final String TAG = WeatherActivity.class.getSimpleName();
-
     @Inject
     WeatherPresenter presenter;
 
@@ -45,9 +43,6 @@ public class WeatherActivity extends AppCompatActivity implements WeatherContrac
         } else {
             presenter.getLastLocation();
         }
-
-
-//        presenter.loadWeatherData();
     }
 
     private void requestPermissionsRequestRationale() {
@@ -55,15 +50,15 @@ public class WeatherActivity extends AppCompatActivity implements WeatherContrac
     }
 
     @Override
-    public void showSnackbar(final int message, final int requestId,
-                              View.OnClickListener listener) {
+    public void showPermissionsSnackbar(final int message, final int requestId,
+                                        View.OnClickListener listener) {
         make(findViewById(android.R.id.content), getString(message), LENGTH_INDEFINITE)
                 .setAction(getString(requestId), listener).show();
     }
 
     @Override
     public void showPermissionRequestRationale() {
-        showSnackbar(R.string.permission_request_rationale, android.R.string.ok,
+        showPermissionsSnackbar(R.string.permission_request_rationale, android.R.string.ok,
                 view -> presenter.requestPermission(this));
     }
 
@@ -87,7 +82,6 @@ public class WeatherActivity extends AppCompatActivity implements WeatherContrac
     public void hideProgress() {
 
     }
-
 
     @Override
     public void onStop() {
