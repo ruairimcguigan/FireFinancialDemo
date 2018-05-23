@@ -2,13 +2,13 @@ package demo.financial.fire.injection;
 
 import android.app.Application;
 import android.content.Context;
-import android.content.SharedPreferences;
+
+import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import demo.financial.fire.util.PermissionsChecker;
 import demo.financial.fire.weather.WeatherActivity;
-
-import static demo.financial.fire.Constants.PREF_FILE_NAME;
 
 @Module()
 public class AppModule {
@@ -36,8 +36,8 @@ public class AppModule {
     }
 
     @Provides
-    @ApplicationContext
-    SharedPreferences provideSharedPreference(@ApplicationContext Context context) {
-        return context.getSharedPreferences(PREF_FILE_NAME, Context.MODE_PRIVATE);
+    @Singleton
+    PermissionsChecker providePermissionsCheck(Application context){
+        return new PermissionsChecker(context);
     }
 }

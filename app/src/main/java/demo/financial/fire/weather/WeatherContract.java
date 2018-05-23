@@ -1,5 +1,9 @@
 package demo.financial.fire.weather;
 
+import android.app.Activity;
+import android.support.annotation.NonNull;
+import android.view.View;
+
 import demo.financial.fire.weather.api.models.WeatherResponse;
 
 public interface WeatherContract {
@@ -12,6 +16,10 @@ public interface WeatherContract {
 
         void hideProgress();
 
+        void showPermissionRequestRationale();
+
+        void showSnackbar(final int message, final int requestId,
+                          android.view.View.OnClickListener listener);
     }
 
     interface Presenter {
@@ -25,6 +33,16 @@ public interface WeatherContract {
         void onSuccess(WeatherResponse weather);
 
         void onError(Throwable throwable);
+
+        boolean hasLocationPermissions();
+
+        void checkPermissionsRequestRationale(Activity activity);
+
+        void requestPermission(Activity activity);
+
+        void onPermissionDenied(Activity activity);
+
+        void onRequestPermissionResult(Activity activity, int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults);
     }
 
     interface Model {

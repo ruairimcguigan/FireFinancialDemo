@@ -1,10 +1,18 @@
 package demo.financial.fire.weather;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
+import android.support.annotation.NonNull;
+import android.util.Log;
+
 import java.util.Arrays;
 
 import javax.inject.Inject;
 
 import demo.financial.fire.BuildConfig;
+import demo.financial.fire.R;
+import demo.financial.fire.util.PermissionsChecker;
 import demo.financial.fire.weather.WeatherContract.Model;
 import demo.financial.fire.weather.WeatherContract.Presenter;
 import demo.financial.fire.weather.WeatherContract.View;
@@ -14,14 +22,24 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import timber.log.Timber;
 
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
+import static android.content.pm.PackageManager.PERMISSION_GRANTED;
+import static android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS;
+import static android.support.constraint.Constraints.TAG;
+import static demo.financial.fire.BuildConfig.APPLICATION_ID;
 import static io.reactivex.android.schedulers.AndroidSchedulers.mainThread;
 
 public class WeatherPresenter implements Presenter {
 
+    @Inject
+    PermissionsChecker permissionsChecker;
+
     private final CompositeDisposable disposable = new CompositeDisposable();
+
     private void addDisposable(Disposable disposable) {
         this.disposable.add(disposable);
     }
+
     private Model model;
     private View view;
 
@@ -35,20 +53,30 @@ public class WeatherPresenter implements Presenter {
 
     @Override
     public void attachView(View view) {
-        if (view != null){
+        if (view != null) {
             this.view = view;
         }
     }
 
+    public void checkPermissionsRequestRationale(Activity activity) {
+        Timber.i(TAG, "Displaying permission rationale to provide additional context.");
+        view.showPermissionRequestRationale();
+    }
+
+    public void requestPermission(Activity activity) {
+        Log.i(TAG, "Requesting permission");
+        permissionsChecker.startLocationPermissionRequest(activity);
+    }
+
     @Override
     public void loadWeatherData() {
-            addDisposable(weatherService
-                    .getCurrentWeatherForLocation("35", "139", BuildConfig.API_KEY, "metric")
-                    .observeOn(mainThread())
-                    .doOnSubscribe(__ -> view.showProgress())
-                    .doOnError(this::onError)
-                    .doOnTerminate(() -> view.hideProgress())
-                    .subscribe(this::onSuccess));
+        addDisposable(weatherService
+                .getCurrentWeatherForLocation("35", "139", BuildConfig.API_KEY, "metric")
+                .observeOn(mainThread())
+                .doOnSubscribe(__ -> view.showProgress())
+                .doOnError(this::onError)
+                .doOnTerminate(() -> view.hideProgress())
+                .subscribe(this::onSuccess));
     }
 
     @Override
@@ -61,6 +89,46 @@ public class WeatherPresenter implements Presenter {
     public void onError(Throwable throwable) {
         // TODO: 22/05/2018 to be implemented
         Timber.d("Error retrieving weather", Arrays.toString(throwable.getStackTrace()));
+    }
+
+    @Override
+    public boolean hasLocationPermissions() {
+        return permissionsChecker.hasPermissions(ACCESS_FINE_LOCATION);
+    }
+
+    @Override
+    public void onPermissionDenied(Activity activity) {
+
+        view.showSnackbar(R.string.permission_denied, R.string.settings, new android.view.View.OnClickListener() {
+
+            @Override
+            public void onClick(android.view.View v) {
+                Intent intent = new Intent();
+                intent.setAction(ACTION_APPLICATION_DETAILS_SETTINGS);
+                Uri uri = Uri.fromParts("package", APPLICATION_ID, null);
+                intent.setData(uri);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                activity.startActivity(intent);
+            }
+        });
+    }
+
+    @Override
+    public void onRequestPermissionResult(Activity activity, int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        Timber.i(TAG, "onRequestPermissionResult");
+        if (requestCode == permissionsChecker.getPermissionsRequestCode()) {
+            if (grantResults.length <= 0) {
+                Log.i(TAG, "User interaction was cancelled.");
+            } else if (grantResults[0] == PERMISSION_GRANTED) {
+                getLastLocation();
+            } else {
+                onPermissionDenied(activity);
+            }
+        }
+    }
+
+    private void getLastLocation() {
+
     }
 
     @Override
