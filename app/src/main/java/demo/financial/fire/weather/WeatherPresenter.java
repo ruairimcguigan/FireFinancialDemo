@@ -6,8 +6,6 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import java.net.URLConnection;
-
 import javax.inject.Inject;
 
 import demo.financial.fire.BuildConfig;
@@ -42,8 +40,10 @@ public class WeatherPresenter implements Presenter {
     @Inject
     LocationHelper locationHelper;
 
-    private final CompositeDisposable disposable = new CompositeDisposable();
+    @Inject
+    WeatherAPI weatherService;
 
+    private final CompositeDisposable disposable = new CompositeDisposable();
     private void addDisposable(Disposable disposable) {
         this.disposable.add(disposable);
     }
@@ -55,9 +55,6 @@ public class WeatherPresenter implements Presenter {
     WeatherPresenter(Model model) {
         this.model = model;
     }
-
-    @Inject
-    WeatherAPI weatherService;
 
     @Override
     public void attachView(View view) {
@@ -107,10 +104,10 @@ public class WeatherPresenter implements Presenter {
     @Override
     public void onPermissionDenied(Activity activity) {
         view.showPermissionsSnackbar(R.string.permission_denied,
-                R.string.settings, v -> allowSettingsAdjustment(activity));
+                R.string.settings, v -> allowPermissionSettingsAdjustmentOnDenial(activity));
     }
 
-    private void allowSettingsAdjustment(Activity activity) {
+    private void allowPermissionSettingsAdjustmentOnDenial(Activity activity) {
         Intent intent = new Intent();
         intent.setAction(ACTION_APPLICATION_DETAILS_SETTINGS);
         Uri uri = Uri.fromParts("package", APPLICATION_ID, null);
