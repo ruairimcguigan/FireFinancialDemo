@@ -82,7 +82,7 @@ android {
         implementation 'com.facebook.fresco:fresco:1.9.0'
         implementation 'com.android.support:support-core-utils:27.1.1'
         implementation 'com.github.aakira:expandable-layout:1.6.0@aar'
-        implementation 'com.google.android.gms:play-services-location:15.0.1'
+        implementation 'com.google.android.gms:play-services-location:11.0.1'
     }
 
 }

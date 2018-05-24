@@ -4,12 +4,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
+import demo.financial.fire.api.models.WeatherResponse;
 import demo.financial.fire.weather.WeatherContract.Model;
 import demo.financial.fire.weather.WeatherContract.View;
 import demo.financial.fire.weather.WeatherPresenter;
-import demo.financial.fire.api.models.WeatherResponse;
-
-import static org.junit.Assert.assertEquals;
 
 public class WeatherPresenterTest {
 
@@ -28,7 +26,7 @@ public class WeatherPresenterTest {
     }
 
     @Test
-    public void addition_isCorrect() {
-        assertEquals(4, 2 + 2);
+    public void ifUserHasNotProvidedPreviouslyPermissions_SnackbarBarShouldInitiatePermissionsRequestSequence() {
+
     }
 }
