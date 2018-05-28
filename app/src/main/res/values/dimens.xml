@@ -10,7 +10,7 @@
     <dimen name="city_name_text_size">18sp</dimen>
     <dimen name="image_elevation">5dp</dimen>
     <dimen name="label_text_size">14sp</dimen>
-    <dimen name="temp_value_size">16sp</dimen>
+    <dimen name="temp_value_size">12sp</dimen>
 
     <dimen name="progress_bar">50dp</dimen>
     <dimen name="progress_bar_stroke">4dp</dimen>

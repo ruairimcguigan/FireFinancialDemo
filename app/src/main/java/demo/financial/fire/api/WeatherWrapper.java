@@ -14,16 +14,16 @@ public class WeatherWrapper {
         this.weatherResponse = weather;
     }
 
-    public String getCurrentTemp(){
-        return valueOf(weatherResponse.getMain().getTemp());
+    public double getCurrentTemp(){
+        return weatherResponse.getMain().getTemp();
     }
 
-    public String getMaxTemp(){
-        return valueOf(weatherResponse.getMain().getTempMax());
+    public double getMaxTemp(){
+        return weatherResponse.getMain().getTempMax();
     }
 
-    public String getMinTemp(){
-        return valueOf(weatherResponse.getMain().getTempMin());
+    public double getMinTemp(){
+        return weatherResponse.getMain().getTempMin();
     }
 
     public String getHumidity(){
@@ -42,12 +42,12 @@ public class WeatherWrapper {
         return weatherResponse.getWeather().get(0).getDescription();
     }
 
-    public String getSunrise(){
-        return valueOf(weatherResponse.getSys().getSunrise());
+    public long getSunrise(){
+        return weatherResponse.getSys().getSunrise();
     }
 
-    public String getSunset(){
-        return valueOf(weatherResponse.getSys().getSunset());
+    public long getSunset(){
+        return weatherResponse.getSys().getSunset();
     }
 
     public String getCountry(){

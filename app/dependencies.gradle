@@ -90,7 +90,6 @@ ext {
             espressoCore        : "com.android.support.test.espresso:espresso-core:$versions.espresso",
             espressoContrib     : "com.android.support.test.espresso:espresso-contrib:$versions.espresso",
             espressoIntents     : "com.android.support.test.espresso:espresso-intents:$versions.espresso",
-            espressoAcc         : "com.android.support.test.espresso:espresso-accessibility:$versions.espresso",
             espressoIdle        : "com.android.support.test.espresso:espresso-idling-resource:$versions.espresso",
             espressoConcurrent  : "com.android.support.test.espresso.idling:idling-concurrent:$versions.espresso",
             espressoNetIdle     : "com.android.support.test.espresso.idling:idling-net:$versions.espresso",

@@ -2,12 +2,17 @@ package demo.financial.fire.injection;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.res.AssetManager;
+import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.util.DisplayMetrics;
 
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
 import demo.financial.fire.location.LocationHelper;
+import demo.financial.fire.util.Formatter;
 import demo.financial.fire.util.PermissionsChecker;
 import demo.financial.fire.weather.WeatherActivity;
 
@@ -46,5 +51,11 @@ public class AppModule {
     @Singleton
     LocationHelper provideLocationHelper(Application context){
         return new LocationHelper(context);
+    }
+
+    @Provides
+    @Singleton
+    public Formatter provideFormatter(){
+        return new Formatter();
     }
 }

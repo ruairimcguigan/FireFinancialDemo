@@ -9,4 +9,10 @@
     <string name="current_temp">Current temp</string>
     <string name="sunrise">Sunrise</string>
     <string name="sunset">Sunset</string>
+    <string name="welcome">Your weather for location:</string>
+    <string name="wind_speed">Wind</string>
+
+    <string name="wind_speed_with_value">%1$s mph</string>
+    <string name="temperature_with_value">%1$s ℃</string>
+
 </resources>

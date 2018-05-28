@@ -1,6 +1,6 @@
 package demo.financial.fire.weather;
 
-import android.net.Uri;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -15,8 +15,9 @@ import butterknife.BindView;
 import demo.financial.fire.R;
 import demo.financial.fire.WeatherApplication;
 import demo.financial.fire.api.WeatherWrapper;
-import timber.log.Timber;
+import demo.financial.fire.util.Formatter;
 
+import static android.net.Uri.parse;
 import static android.support.design.widget.Snackbar.LENGTH_INDEFINITE;
 import static android.support.design.widget.Snackbar.make;
 import static android.view.View.VISIBLE;
@@ -26,6 +27,9 @@ public class WeatherActivity extends AppCompatActivity implements WeatherContrac
 
     @Inject
     WeatherPresenter presenter;
+
+    @Inject
+    Formatter formatter;
 
     @BindView(R.id.root_view)
     ViewGroup container;
@@ -57,11 +61,17 @@ public class WeatherActivity extends AppCompatActivity implements WeatherContrac
     @BindView(R.id.activity_weather_sunset)
     TextView sunset;
 
+    @BindView(R.id.activity_weather_wind_speed)
+    TextView windSpeed;
+
+    private Resources res;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weather);
         bind(this);
+        res = getResources();
 
         ((WeatherApplication) getApplication()).getAppComponent().inject(this);
     }
@@ -103,15 +113,16 @@ public class WeatherActivity extends AppCompatActivity implements WeatherContrac
 
     @Override
     public void showWeather(WeatherWrapper weather) {
-        weatherImage.setImageURI(Uri.parse(presenter.iconUrlBuilder(weather.getIconCode())));
-        Timber.i("IMAGE: ", presenter.iconUrlBuilder(weather.getIconCode()));
+        weatherImage.setImageURI(parse(presenter.iconUrlBuilder(weather.getIconCode())));
         cityName.setText(weather.getPlace());
         description.setText(weather.getConditionDescription());
-        currentTemp.setText(weather.getCurrentTemp());
-        minTemp.setText(weather.getMinTemp());
-        maxtemp.setText(weather.getMaxTemp());
-        sunrise.setText(weather.getSunrise());
-        sunset.setText(weather.getSunset());
+        currentTemp.setText(formatter.formatWithMeasurementUnit(res, R.string.temperature_with_value, weather.getCurrentTemp()));
+        minTemp.setText(formatter.formatWithMeasurementUnit(res, R.string.temperature_with_value,weather.getMinTemp()));
+        maxtemp.setText(formatter.formatWithMeasurementUnit(res, R.string.temperature_with_value,weather.getMaxTemp()));
+        sunrise.setText(formatter.epochToDate(weather.getSunrise()));
+        sunset.setText(formatter.epochToDate(weather.getSunset()));
+        windSpeed.setText(formatter.formatWithMeasurementUnit(res, R.string.wind_speed_with_value, weather.getWind().getSpeed()));
+
     }
 
     @Override

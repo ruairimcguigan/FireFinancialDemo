@@ -4,9 +4,7 @@ import android.app.Application;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.stetho.Stetho;
-import com.singhajit.sherlock.core.Sherlock;
 import com.squareup.leakcanary.LeakCanary;
-import com.tspoon.traceur.Traceur;
 
 import demo.financial.fire.injection.AppComponent;
 import demo.financial.fire.injection.AppModule;
@@ -28,8 +26,6 @@ public class WeatherApplication extends Application {
             Timber.plant(new Timber.DebugTree());
             Stetho.initializeWithDefaults(this);
             LeakCanary.install(this);
-//            Sherlock.init(this);
-//            Traceur.enableLogging();
             initDagger();
         }
     }

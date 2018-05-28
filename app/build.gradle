@@ -4,11 +4,13 @@ android {
     compileSdkVersion 27
     defaultConfig {
         applicationId "demo.financial.fire"
-        minSdkVersion 24
+        minSdkVersion 26
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        testInstrumentationRunner "demo.financial.fire.weather.runner.WeatherTestRunner"
+
     }
     buildTypes {
         debug {
